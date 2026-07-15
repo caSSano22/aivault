@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIVault — All-in-One AI Tools. Infinite Possibilities.</title>
+<style>
+  :root{
+    --bg:#070811;
+    --panel:#0f1120;
+    --panel2:#131629;
+    --line:rgba(140,140,255,0.14);
+    --line-strong:rgba(140,140,255,0.28);
+    --blue:#4f7bff;
+    --purple:#8b5cf6;
+    --grad:linear-gradient(90deg,var(--blue),var(--purple));
+    --text:#eef0fb;
+    --text-dim:#9aa0bd;
+    --teal:#2dd4bf;
+    --mono:'JetBrains Mono','Courier New',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    overflow-x:hidden;position:relative;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(circle at 15% 8%, rgba(79,123,255,0.15), transparent 45%),
+      radial-gradient(circle at 85% 5%, rgba(139,92,246,0.13), transparent 40%);
+  }
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--purple);color:#fff;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--panel2);border-radius:10px;}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px;position:relative;z-index:1;}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:100;background:rgba(7,8,17,0.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1240px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-0.02em;}
+  .logo .cube{width:34px;height:34px;flex-shrink:0;}
+  .logo small{display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;margin-top:-2px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{font-size:14.5px;color:var(--text-dim);font-weight:500;transition:color .2s ease;position:relative;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:1.5px;background:var(--grad);transition:width .25s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;font-family:inherit;}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 0 0 rgba(139,92,246,0);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px -8px rgba(139,92,246,0.55);}
+  .btn-outline{background:transparent;color:var(--text);border:1px solid var(--line-strong);}
+  .btn-outline:hover{border-color:var(--purple);color:#c9b8ff;}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+  .burger span{width:24px;height:2px;background:var(--text);transition:.3s;}
+
+  /* HERO */
+  .hero{padding:80px 32px 50px;max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1.05fr;gap:40px;align-items:center;position:relative;z-index:1;}
+  h1{font-size:clamp(34px,4.6vw,50px);line-height:1.08;font-weight:800;letter-spacing:-0.03em;margin-bottom:18px;}
+  h1 .accent{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p.lead{color:var(--text-dim);font-size:16.5px;line-height:1.65;max-width:440px;margin-bottom:28px;}
+  .hero-cta{display:flex;gap:14px;align-items:center;margin-bottom:34px;flex-wrap:wrap;}
+  .trust-mini{font-size:12px;color:var(--text-dim);margin-bottom:14px;}
+  .trust-logos{display:flex;gap:22px;flex-wrap:wrap;align-items:center;}
+  .trust-logos span{font-size:13.5px;font-weight:600;color:var(--text-dim);display:flex;align-items:center;gap:6px;opacity:.85;}
+
+  .hero-visual{position:relative;height:480px;}
+  .orb-figure{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+  .orb-figure svg{width:100%;height:100%;max-width:440px;filter:drop-shadow(0 0 50px rgba(79,123,255,0.35));}
+  .float-tag{position:absolute;background:var(--panel);border:1px solid var(--line-strong);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;animation:float 5s ease-in-out infinite;box-shadow:0 12px 30px -12px rgba(0,0,0,0.6);}
+  .float-tag .fi{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .float-tag .ft-t{font-size:12.5px;font-weight:700;}
+  .float-tag .ft-s{font-size:10.5px;color:var(--text-dim);}
+  .ft1{top:6%;left:2%;animation-delay:0s;}
+  .ft2{top:34%;left:-4%;animation-delay:.6s;}
+  .ft3{bottom:20%;right:-2%;animation-delay:1.2s;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+  /* TRUST STRIP */
+  .trust-strip{padding:0 32px 60px;max-width:1240px;margin:0 auto;}
+
+  section{padding:80px 32px;max-width:1240px;margin:0 auto;position:relative;z-index:1;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px;flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(24px,3.2vw,34px);font-weight:800;letter-spacing:-0.02em;line-height:1.15;}
+  .section-head h2 .accent{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .section-head p{color:var(--text-dim);max-width:360px;font-size:14.5px;line-height:1.6;}
+
+  /* TOOLS */
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .tool-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .25s ease, border-color .25s ease, background .25s ease;cursor:pointer;}
+  .tool-card:hover{transform:translateY(-6px);border-color:var(--line-strong);background:var(--panel2);}
+  .tool-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;}
+  .tool-card h3{font-size:16px;margin-bottom:8px;font-weight:700;}
+  .tool-card p{font-size:13px;color:var(--text-dim);line-height:1.55;margin-bottom:18px;min-height:40px;}
+  .tool-card button{width:100%;background:var(--panel2);border:1px solid var(--line-strong);color:var(--text);padding:9px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit;}
+  .tool-card button:hover{background:var(--grad);border-color:transparent;}
+
+  .icon-purple{background:rgba(139,92,246,0.15);color:#c4b0ff;}
+  .icon-blue{background:rgba(79,123,255,0.15);color:#8fb0ff;}
+  .icon-teal{background:rgba(45,212,191,0.15);color:#5eead4;}
+  .icon-pink{background:rgba(236,72,153,0.15);color:#f5a8d0;}
+
+  /* FEATURE STRIP */
+  .feature-strip{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 30px;}
+  .feature-strip .fitem{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--text-dim);}
+  .feature-strip .fitem span.ic{font-size:16px;}
+
+  /* PRICING */
+  .pricing-head{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:40px;}
+  .toggle-group{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:5px;}
+  .toggle-group button{background:none;border:none;color:var(--text-dim);padding:8px 16px;border-radius:7px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s;}
+  .toggle-group button.active{background:var(--grad);color:#fff;}
+  .save-badge{font-size:11px;background:rgba(45,212,191,0.15);color:#5eead4;padding:3px 9px;border-radius:12px;font-weight:700;}
+
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .plan{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 26px;position:relative;transition:transform .25s ease, border-color .25s;}
+  .plan:hover{transform:translateY(-6px);}
+  .plan.popular{border-color:var(--purple);background:linear-gradient(180deg, rgba(139,92,246,0.08), var(--panel) 30%);}
+  .popular-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--grad);color:#fff;font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:0.03em;}
+  .plan .pname{font-size:12.5px;font-weight:700;letter-spacing:0.05em;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px;}
+  .plan .price{font-size:38px;font-weight:800;letter-spacing:-0.02em;}
+  .plan .price span{font-size:15px;font-weight:500;color:var(--text-dim);}
+  .plan .billed{font-size:12.5px;color:var(--text-dim);margin-bottom:22px;}
+  .plan ul{margin-bottom:26px;}
+  .plan li{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--text-dim);margin-bottom:11px;line-height:1.4;}
+  .plan li .ck{color:var(--teal);flex-shrink:0;margin-top:1px;}
+  .plan .btn{width:100%;justify-content:center;}
+
+  /* BLOG */
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .blog-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease, border-color .25s ease;}
+  .blog-card:hover{transform:translateY(-6px);border-color:var(--line-strong);}
+  .blog-thumb{height:150px;position:relative;overflow:hidden;}
+  .blog-thumb svg{width:100%;height:100%;}
+  .blog-body{padding:18px 20px;}
+  .blog-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-dim);margin-bottom:10px;}
+  .blog-card h4{font-size:15.5px;font-weight:700;line-height:1.35;margin-bottom:12px;}
+  .blog-card .rm{font-size:12.5px;color:#8fb0ff;font-weight:600;}
+
+  /* CTA VAULT */
+  .cta-vault{background:linear-gradient(120deg, rgba(79,123,255,0.14), rgba(139,92,246,0.10)), var(--panel);border:1px solid var(--line-strong);border-radius:20px;padding:50px 44px;display:grid;grid-template-columns:1.2fr 0.8fr;align-items:center;gap:30px;overflow:hidden;position:relative;}
+  .cta-vault h3{font-size:clamp(24px,3.2vw,32px);font-weight:800;line-height:1.2;margin-bottom:14px;}
+  .cta-vault h3 .accent{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .cta-vault p{color:var(--text-dim);font-size:14.5px;margin-bottom:26px;max-width:400px;}
+  .vault-visual{display:flex;justify-content:center;align-items:center;}
+  .vault-visual svg{width:100%;max-width:220px;}
+
+  /* VALUES STRIP */
+  .values-strip{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:26px 32px;border-top:1px solid var(--line);max-width:1240px;margin:0 auto;}
+  .values-strip .vitem{display:flex;align-items:center;gap:10px;}
+  .values-strip .vitem .vi{width:32px;height:32px;border-radius:9px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .values-strip .vitem h5{font-size:13px;font-weight:700;}
+  .values-strip .vitem p{font-size:11px;color:var(--text-dim);}
+
+  footer{border-top:1px solid var(--line);padding:0 32px 30px;}
+
+  /* CHAT WIDGET */
+  .chat-fab{position:fixed;bottom:26px;right:26px;z-index:200;width:58px;height:58px;border-radius:50%;background:var(--grad);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -8px rgba(139,92,246,0.6);transition:transform .2s ease;font-size:22px;}
+  .chat-fab:hover{transform:scale(1.08);}
+  .chat-panel{position:fixed;bottom:96px;right:26px;z-index:200;width:320px;max-height:420px;background:var(--panel);border:1px solid var(--line-strong);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,0.8);opacity:0;transform:translateY(16px) scale(0.97);pointer-events:none;transition:.25s ease;}
+  .chat-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+  .chat-head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .chat-head .t{font-size:14px;font-weight:700;}
+  .chat-head .s{font-size:11px;color:var(--teal);display:flex;align-items:center;gap:5px;}
+  .chat-head .s .d{width:6px;height:6px;border-radius:50%;background:var(--teal);}
+  .chat-body{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:180px;}
+  .msg{font-size:13px;line-height:1.5;padding:9px 12px;border-radius:10px;max-width:85%;}
+  .msg.bot{background:var(--panel2);align-self:flex-start;border:1px solid var(--line);}
+  .msg.user{background:var(--grad);color:#fff;align-self:flex-end;font-weight:500;}
+  .chat-foot{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);}
+  .chat-foot input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;font-family:inherit;}
+  .chat-foot input:focus{border-color:var(--purple);}
+  .chat-foot button{background:var(--grad);border:none;border-radius:8px;width:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media(max-width:980px){
+    .hero{grid-template-columns:1fr;}
+    .hero-visual{height:360px;order:-1;}
+    .tool-grid{grid-template-columns:repeat(2,1fr);}
+    .pricing-grid{grid-template-columns:1fr;}
+    .blog-grid{grid-template-columns:1fr;}
+    .cta-vault{grid-template-columns:1fr;}
+  }
+  @media(max-width:720px){
+    .nav-links{position:fixed;top:66px;left:0;right:0;background:var(--panel);flex-direction:column;padding:24px 32px;border-bottom:1px solid var(--line);transform:translateY(-120%);opacity:0;transition:.3s;gap:18px;}
+    .nav-links.open{transform:translateY(0);opacity:1;}
+    .nav-links .btn{width:100%;justify-content:center;}
+    .burger{display:flex;}
+    .tool-grid{grid-template-columns:1fr;}
+    .feature-strip{flex-direction:column;}
+    .values-strip{flex-direction:column;}
+    .chat-panel{width:calc(100vw - 40px);right:20px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <span class="cube"><svg viewBox="0 0 40 40" fill="none">
+        <defs><linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#4f7bff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+        <path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" fill="url(#lg1)" opacity="0.25"/>
+        <path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="url(#lg1)" stroke-width="1.6"/>
+        <path d="M20 2V20L4 11" stroke="url(#lg1)" stroke-width="1.2" opacity="0.6"/>
+        <path d="M20 20L36 11" stroke="url(#lg1)" stroke-width="1.2" opacity="0.6"/>
+        <path d="M20 20V38" stroke="url(#lg1)" stroke-width="1.2" opacity="0.6"/>
+      </svg></span>
+      <span>AIVault<small>$VAULT</small></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#tools">AI Tools</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><button class="btn btn-primary" onclick="scrollToId('pricing')">Get Started →</button></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div>
+    <h1>All-in-One<br><span class="accent">AI Tools.</span><br>Infinite Possibilities.</h1>
+    <p class="lead">AIVault brings the most powerful AI tools together in one place to help you create, analyze, automate, and scale faster than ever.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="scrollToId('pricing')">Get Started →</button>
+      <button class="btn btn-outline" onclick="scrollToId('tools')">Explore Tools</button>
+    </div>
+    <div class="trust-mini">Trusted by creators, developers &amp; businesses worldwide</div>
+    <div class="trust-logos">
+      <span>◍ OpenAI</span><span>Ⓐ Anthropic</span><span>🔷 Google AI</span><span>🤗 Hugging Face</span><span>💠 Stability AI</span>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="orb-figure">
+      <svg viewBox="0 0 400 400">
+        <defs>
+          <radialGradient id="g1" cx="50%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#26305c"/>
+            <stop offset="100%" stop-color="#070811"/>
+          </radialGradient>
+          <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4f7bff"/>
+            <stop offset="100%" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+        <circle cx="200" cy="200" r="160" fill="url(#g1)"/>
+        <circle cx="200" cy="200" r="160" fill="none" stroke="url(#g2)" stroke-opacity="0.3" stroke-dasharray="3 6">
+          <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="24s" repeatCount="indefinite"/>
+        </circle>
+        <g stroke="url(#g2)" stroke-opacity="0.4">
+          <line x1="200" y1="70" x2="120" y2="140"/>
+          <line x1="200" y1="70" x2="280" y2="140"/>
+          <line x1="120" y1="140" x2="90" y2="220"/>
+          <line x1="280" y1="140" x2="310" y2="220"/>
+        </g>
+        <g fill="url(#g2)">
+          <circle cx="200" cy="70" r="3.5"/>
+          <circle cx="120" cy="140" r="3.5"/>
+          <circle cx="280" cy="140" r="3.5"/>
+          <circle cx="90" cy="220" r="3.5"/>
+          <circle cx="310" cy="220" r="3.5"/>
+        </g>
+        <ellipse cx="195" cy="230" rx="72" ry="98" fill="#141a33" stroke="url(#g2)" stroke-opacity="0.5"/>
+        <circle cx="195" cy="175" r="56" fill="#1b2447" stroke="url(#g2)" stroke-opacity="0.6"/>
+        <circle cx="195" cy="175" r="20" fill="none" stroke="url(#g2)" stroke-width="1.6"/>
+        <circle cx="195" cy="175" r="7" fill="url(#g2)"/>
+      </svg>
+    </div>
+    <div class="float-tag ft1">
+      <div class="fi icon-blue">💬</div>
+      <div><div class="ft-t">AI Chat</div><div class="ft-s">Ask anything</div></div>
+    </div>
+    <div class="float-tag ft2">
+      <div class="fi icon-purple">🖼️</div>
+      <div><div class="ft-t">Image Gen</div><div class="ft-s">Create stunning images</div></div>
+    </div>
+    <div class="float-tag ft3">
+      <div class="fi icon-teal">📊</div>
+      <div><div class="ft-t">Data Analyze</div><div class="ft-s">Turn data into insights</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="section-head reveal">
+    <div><h2>Powerful AI Tools<br>For <span class="accent">Every Task</span></h2></div>
+    <p>From content creation to complex analytics, AIVault gives you everything you need in one powerful workspace.</p>
+  </div>
+  <div class="tool-grid">
+    <div class="tool-card reveal" data-tool="AI Chat">
+      <div class="tool-icon icon-purple">💬</div>
+      <h3>AI Chat</h3>
+      <p>Smart conversations for any question, anytime.</p>
+      <button>Use Now</button>
+    </div>
+    <div class="tool-card reveal" data-tool="Image Generator">
+      <div class="tool-icon icon-blue">🖼️</div>
+      <h3>Image Generator</h3>
+      <p>Create unique images from simple text prompts.</p>
+      <button>Use Now</button>
+    </div>
+    <div class="tool-card reveal" data-tool="Code Assistant">
+      <div class="tool-icon icon-teal">⌘</div>
+      <h3>Code Assistant</h3>
+      <p>Generate, debug, and improve code instantly.</p>
+      <button>Use Now</button>
+    </div>
+    <div class="tool-card reveal" data-tool="Document AI">
+      <div class="tool-icon icon-pink">📄</div>
+      <h3>Document AI</h3>
+      <p>Summarize, analyze, and extract info from documents.</p>
+      <button>Use Now</button>
+    </div>
+    <div class="tool-card reveal" data-tool="Data Analyzer">
+      <div class="tool-icon icon-blue">📈</div>
+      <h3>Data Analyzer</h3>
+      <p>Analyze datasets and uncover powerful insights.</p>
+      <button>Use Now</button>
+    </div>
+    <div class="tool-card reveal" data-tool="AI Automations">
+      <div class="tool-icon icon-teal">⚡</div>
+      <h3>AI Automations</h3>
+      <p>Automate repetitive tasks and save valuable time.</p>
+      <button>Use Now</button>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="padding-top:0;">
+  <div class="feature-strip reveal">
+    <div class="fitem"><span class="ic">⚡</span> Fast &amp; Accurate</div>
+    <div class="fitem"><span class="ic">✅</span> Secure &amp; Private</div>
+    <div class="fitem"><span class="ic">✨</span> Powered by Advanced AI</div>
+    <div class="fitem"><span class="ic">🧊</span> Built for Web3</div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="pricing-head reveal">
+    <div><h2>Affordable Plans<br>For <span class="accent">Every Need</span></h2></div>
+    <div class="toggle-group">
+      <button class="active" id="tabMonthly">Monthly</button>
+      <button id="tabYearly">Yearly</button>
+      <span class="save-badge">Save 20%</span>
+    </div>
+  </div>
+  <div class="pricing-grid">
+    <div class="plan reveal">
+      <div class="pname">Free</div>
+      <div class="price" data-monthly="0" data-yearly="0">$0<span>/m</span></div>
+      <div class="billed">Free forever</div>
+      <ul>
+        <li><span class="ck">✓</span> Access to basic AI tools</li>
+        <li><span class="ck">✓</span> Standard templates library</li>
+        <li><span class="ck">✓</span> Up to 10 generations/day</li>
+        <li><span class="ck">✓</span> Community support</li>
+      </ul>
+      <button class="btn btn-outline">Get Started</button>
+    </div>
+    <div class="plan popular reveal">
+      <div class="popular-badge">MOST POPULAR</div>
+      <div class="pname">Pro</div>
+      <div class="price" data-monthly="14.99" data-yearly="11.99">$14.99<span>/m</span></div>
+      <div class="billed">Billed monthly</div>
+      <ul>
+        <li><span class="ck">✓</span> Access to advanced AI tools</li>
+        <li><span class="ck">✓</span> Unlimited generations</li>
+        <li><span class="ck">✓</span> Premium templates &amp; assets</li>
+        <li><span class="ck">✓</span> Priority support</li>
+        <li><span class="ck">✓</span> Early access to new features</li>
+      </ul>
+      <button class="btn btn-primary">Get Started</button>
+    </div>
+    <div class="plan reveal">
+      <div class="pname">Team</div>
+      <div class="price" data-monthly="29.99" data-yearly="23.99">$29.99<span>/m</span></div>
+      <div class="billed">Billed monthly</div>
+      <ul>
+        <li><span class="ck">✓</span> Everything in Pro</li>
+        <li><span class="ck">✓</span> Team collaboration</li>
+        <li><span class="ck">✓</span> Shared workspace</li>
+        <li><span class="ck">✓</span> Advanced analytics</li>
+        <li><span class="ck">✓</span> Dedicated support</li>
+      </ul>
+      <button class="btn btn-outline">Get Started</button>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="section-head reveal">
+    <div><h2>Stay Inspired With<br>Latest <span class="accent">Insights</span></h2></div>
+    <div style="display:flex;align-items:flex-end;gap:14px;">
+      <p style="margin-bottom:12px;">Tips, tutorials, and industry news to help you stay ahead in the world of AI.</p>
+      <button class="btn btn-outline" style="margin-bottom:0;">View All Articles</button>
+    </div>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card reveal" data-post="10 AI Tools That Boost Your Productivity">
+      <div class="blog-thumb">
+        <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="150" fill="#141a33"/>
+          <circle cx="150" cy="75" r="45" fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.6"/>
+          <circle cx="150" cy="75" r="4" fill="#4f7bff"/>
+          <path d="M120 60 Q150 30 180 60 M110 90 Q150 130 190 90" stroke="#4f7bff" stroke-width="1.5" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="blog-body">
+        <div class="blog-meta"><span>Apr 10, 2026</span><span>6 min read</span></div>
+        <h4>10 AI Tools That Boost Your Productivity</h4>
+        <div class="rm">Read More →</div>
+      </div>
+    </div>
+    <div class="blog-card reveal" data-post="How AI is Changing the Future of Work">
+      <div class="blog-thumb">
+        <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="150" fill="#171633"/>
+          <rect x="120" y="45" width="60" height="60" rx="8" fill="none" stroke="#8b5cf6" stroke-width="2" transform="rotate(20 150 75)"/>
+          <circle cx="150" cy="75" r="6" fill="#4f7bff"/>
+        </svg>
+      </div>
+      <div class="blog-body">
+        <div class="blog-meta"><span>Mar 25, 2026</span><span>8 min read</span></div>
+        <h4>How AI is Changing the Future of Work</h4>
+        <div class="rm">Read More →</div>
+      </div>
+    </div>
+    <div class="blog-card reveal" data-post="The Ultimate Guide to AI Prompting">
+      <div class="blog-thumb">
+        <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="150" fill="#0f1a2e"/>
+          <circle cx="150" cy="80" r="40" fill="#1b2447" stroke="#4f7bff" stroke-width="1.5"/>
+          <path d="M110 80 a40 40 0 0 1 80 0" stroke="#8b5cf6" stroke-width="1.5" fill="none" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="blog-body">
+        <div class="blog-meta"><span>Feb 18, 2026</span><span>7 min read</span></div>
+        <h4>The Ultimate Guide to AI Prompting</h4>
+        <div class="rm">Read More →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-vault reveal">
+    <div>
+      <h3>Ready to Unlock the<br><span class="accent">Power of AI?</span></h3>
+      <p>Join thousands of creators, developers, and businesses using AIVault to build the future.</p>
+      <button class="btn btn-primary" onclick="scrollToId('pricing')">Start Your Journey →</button>
+    </div>
+    <div class="vault-visual">
+      <svg viewBox="0 0 220 220">
+        <defs><linearGradient id="vg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f7bff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+        <rect x="20" y="20" width="180" height="180" rx="16" fill="#141a33" stroke="url(#vg)" stroke-width="2"/>
+        <circle cx="110" cy="110" r="55" fill="#1b2447" stroke="url(#vg)" stroke-width="2"/>
+        <circle cx="110" cy="110" r="30" fill="none" stroke="url(#vg)" stroke-width="1.5" stroke-dasharray="4 4">
+          <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="10s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="110" cy="110" r="8" fill="url(#vg)"/>
+        <circle cx="45" cy="45" r="4" fill="url(#vg)"/>
+        <circle cx="175" cy="45" r="4" fill="url(#vg)"/>
+        <circle cx="45" cy="175" r="4" fill="url(#vg)"/>
+        <circle cx="175" cy="175" r="4" fill="url(#vg)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="values-strip reveal">
+  <div class="vitem"><div class="vi">🔒</div><div><h5>Decentralized &amp; Secure</h5><p>Your data, your control.</p></div></div>
+  <div class="vitem"><div class="vi">🧊</div><div><h5>Web3 Native</h5><p>Built for the future.</p></div></div>
+  <div class="vitem"><div class="vi">✨</div><div><h5>AI-Powered</h5><p>Smarter tools, better results.</p></div></div>
+  <div class="vitem"><div class="vi">👥</div><div><h5>Community Driven</h5><p>Built by the community.</p></div></div>
+</div>
+
+<footer>
+  <div style="max-width:1240px;margin:0 auto;padding-top:30px;border-top:1px solid var(--line);text-align:center;font-size:12.5px;color:var(--text-dim);">
+    © 2026 AIVault. All rights reserved.
+  </div>
+</footer>
+
+<button class="chat-fab" id="chatFab">💬</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div><div class="t">AIVault Assistant</div><div class="s"><span class="d"></span>Online now</div></div>
+    <button id="chatClose" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="msg bot">Hai! Saya asisten AIVault. Tanyakan soal tools, harga, atau paket kami 👋</div>
+  </div>
+  <div class="chat-foot">
+    <input type="text" id="chatInput" placeholder="Ask anything...">
+    <button id="chatSend">→</button>
+  </div>
+</div>
+
+<script>
+// Mobile nav
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', ()=> navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+
+function scrollToId(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+// Scroll reveal
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Pricing toggle
+const tabMonthly = document.getElementById('tabMonthly');
+const tabYearly = document.getElementById('tabYearly');
+const prices = document.querySelectorAll('.plan .price');
+const billedLabels = document.querySelectorAll('.plan .billed');
+function setPlan(mode){
+  prices.forEach(p=>{
+    const val = p.dataset[mode];
+    p.innerHTML = '$' + val + '<span>/m</span>';
+  });
+  billedLabels.forEach(b=>{
+    if(b.textContent.includes('Free')) return;
+    b.textContent = mode === 'yearly' ? 'Billed yearly' : 'Billed monthly';
+  });
+  tabMonthly.classList.toggle('active', mode==='monthly');
+  tabYearly.classList.toggle('active', mode==='yearly');
+}
+tabMonthly.addEventListener('click', ()=>setPlan('monthly'));
+tabYearly.addEventListener('click', ()=>setPlan('yearly'));
+
+// Tool cards -> chat feedback
+document.querySelectorAll('.tool-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const name = card.dataset.tool;
+    openChat();
+    addMsg('bot', `"${name}" siap digunakan! Mau saya jelaskan cara kerjanya, atau langsung coba sekarang?`);
+  });
+});
+
+// Blog cards -> alert preview
+document.querySelectorAll('.blog-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    alert('📖 Membuka artikel: "' + card.dataset.post + '" (demo)');
+  });
+});
+
+// Chat widget
+const chatFab = document.getElementById('chatFab');
+const chatPanel = document.getElementById('chatPanel');
+const chatClose = document.getElementById('chatClose');
+const chatBody = document.getElementById('chatBody');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+
+function openChat(){ chatPanel.classList.add('open'); chatInput.focus(); }
+chatFab.addEventListener('click', ()=>chatPanel.classList.toggle('open'));
+chatClose.addEventListener('click', ()=>chatPanel.classList.remove('open'));
+
+function addMsg(who, text){
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  div.textContent = text;
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+const responses = [
+  {k:['harga','price','pricing','biaya'], r:"Kami punya 3 paket: Free ($0), Pro ($14.99/bulan), dan Team ($29.99/bulan). Pilih Yearly untuk hemat 20%!"},
+  {k:['tool','fitur','feature'], r:"AIVault punya 6 tools utama: AI Chat, Image Generator, Code Assistant, Document AI, Data Analyzer, dan AI Automations."},
+  {k:['halo','hai','hi','hello'], r:"Halo! Senang bertemu denganmu 👋 Ada yang bisa saya bantu soal AIVault?"},
+  {k:['web3','blockchain','crypto'], r:"AIVault dibangun untuk Web3 — data kamu terdesentralisasi dan sepenuhnya berada di bawah kendalimu."},
+  {k:['gratis','free','trial'], r:"Ya! Paket Free tersedia selamanya dengan akses ke tools dasar dan 10 generasi/hari."},
+];
+function botReply(text){
+  const lower = text.toLowerCase();
+  const found = responses.find(r=>r.k.some(k=>lower.includes(k)));
+  return found ? found.r : "Terima kasih! Tim kami akan segera membantu, atau coba tanyakan soal tools, harga, atau Web3.";
+}
+function sendChat(){
+  const val = chatInput.value.trim();
+  if(!val) return;
+  addMsg('user', val);
+  chatInput.value = '';
+  setTimeout(()=>{ addMsg('bot', botReply(val)); }, 500);
+}
+chatSend.addEventListener('click', sendChat);
+chatInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChat(); });
+
+setTimeout(()=>{ if(!chatPanel.classList.contains('open')){ chatFab.style.transition='transform .3s'; chatFab.style.transform='scale(1.12)'; setTimeout(()=>chatFab.style.transform='scale(1)',300); } }, 6000);
+</script>
+</body>
+</html>
